@@ -11,7 +11,6 @@ const server = http.createServer(async(req, res) => {
     const route = routes.find((route) => route.method == method && route.url.test(url))
 
     if(route){
-
         const routeParams = req.url.match(route.url)
         const {query} = routeParams.groups
 
