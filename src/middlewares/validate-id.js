@@ -7,11 +7,12 @@ export async function validateId(table, req, res){
     let rows = db.select(table, null)
 
     const index = rows.findIndex((row) => row.id == id)
-
+    const row = rows.find((row) => row.id == id)
     if(!id || index == -1){
         return res.writeHead(404).end(JSON.stringify({erro: "ID não encontrado"}))
     }else{
         req.validateId = true
+        req.taskCompleted = row.completed_at ? true : false
     }
 
 }

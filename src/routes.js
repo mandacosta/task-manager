@@ -39,13 +39,16 @@ export const routes = [
         method: 'PUT',
         url: buildRoutePath('/tasks/:id'),
         handler: (req, res) => {
-            validateBody(req, res)
             validateId('tasks', req, res)
-            if(req.validateBody && req.validateId){
+            if(req.validateId){
                 const id = req.params.id
-                const data = req.body
+                
+                if (!req.body.title && !req.body.description) {
+                    return res.writeHead(400).end(JSON.stringify({ erro: "'title' e/ou 'description' são obrigatórios" }))
+                }
+                const {title, description} = req.body
                 const updated_at = returnFormatedDate()
-                db.update('tasks', id, {...data, updated_at})
+                db.update('tasks', id, {title, description, updated_at})
                 return res.writeHead(204).end()
             }
             
@@ -58,8 +61,9 @@ export const routes = [
             validateId('tasks', req, res)
             if(req.validateId){
                 const id = req.params.id
-                const completed_at = returnFormatedDate()
-                db.update('tasks', id, {completed_at})
+                const completed = req.taskCompleted
+                db.update('tasks', id, {completed_at: completed ? null : returnFormatedDate()})
+                
                 return res.writeHead(204).end()
             }
             
