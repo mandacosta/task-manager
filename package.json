@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch src/server.js",
-    "fake-upload": "node src/csv-handler/csv-handler.js"
+    "upload-tasks": "node src/csv-handler/csv-handler.js"
   },
   "keywords": [],
   "author": "",
